@@ -1,0 +1,25 @@
+module "security_group" {
+  source              = "./module_sqgrp"
+  vpc_id              = module.aws_vpc.vpc_id
+  security_group_name = var.security_group_name
+}
+module "ec2_instance" {
+  source                 = "./module_ec2_instance"
+  ami_value              = "ami-01bc990364452ab3e"
+  instance_type_value    = "t2.micro"
+  subnet_id              = module.aws_vpc.public_subnet_id
+  vpc_security_group_ids = [module.security_group.vpc_security_group_ids]
+  instance_name          = var.instance_name
+}
+
+module "aws_vpc" {
+  source                = "./module_vpc"
+  vpc_cird_block        = "192.168.0.0/16"
+  subnet_cird_block     = "192.168.1.0/24"
+  pri_subnet_cird_block = "192.168.2.0/24"
+  vpc_name              = var.vpc_name
+}
+
+output "Public_ip" {
+  value = module.ec2_instance.instanceIP-Pub
+}
