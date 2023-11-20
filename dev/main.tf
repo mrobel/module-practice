@@ -1,10 +1,10 @@
 module "security_group" {
-  source              = "./module_sqgrp"
+  source              = "./module/sqgp"
   vpc_id              = module.aws_vpc.vpc_id
   security_group_name = var.security_group_name
 }
 module "ec2_instance" {
-  source                 = "./module_ec2_instance"
+  source                 = "./module/ec2"
   ami_value              = "ami-01bc990364452ab3e"
   instance_type_value    = "t2.micro"
   subnet_id              = module.aws_vpc.public_subnet_id
@@ -13,7 +13,7 @@ module "ec2_instance" {
 }
 
 module "aws_vpc" {
-  source                = "./module_vpc"
+  source                = "./module/vpc"
   vpc_cird_block        = "192.168.0.0/16"
   subnet_cird_block     = "192.168.1.0/24"
   pri_subnet_cird_block = "192.168.2.0/24"
